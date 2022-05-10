@@ -48,13 +48,13 @@ public class BarrageDateUtils {
         String m = String.valueOf((seconds % 3600) / 60);
         String s = String.valueOf((seconds % 3600) % 60);
         if (h.length() < 2 ) {
-            h += "0";
+            h = "0" + h;
         }
         if (m.length() < 2 ) {
-            m += "0";
+            m = "0" + m;
         }
         if (s.length() < 2 ) {
-            s += "0";
+            s = "0" + s;
         }
         return h + ":" + m + ":"  +s;
     }
