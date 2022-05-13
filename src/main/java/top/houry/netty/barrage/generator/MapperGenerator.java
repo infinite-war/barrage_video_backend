@@ -22,7 +22,7 @@ public class MapperGenerator {
         dsc.setUrl("jdbc:mysql://localhost:3306/barrage?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&&useSSL=false&serverTimezone=Hongkong");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("");
+        dsc.setPassword("123456");
         dsc.setDbType(DbType.MYSQL);
         dsc.setTypeConvert(new MySqlTypeConvert() {
             @Override
@@ -46,7 +46,7 @@ public class MapperGenerator {
         tc.setController(null);
         mpg.setTemplate(tc);
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("t_barrage_color_configure");
+        strategy.setInclude("t_barrage_msg_sensitive");
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setTablePrefix(pc.getModuleName() + "_");
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
