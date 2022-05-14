@@ -18,6 +18,7 @@ import top.houry.netty.barrage.service.IBarrageMsgService;
 import top.houry.netty.barrage.service.IBarrageMsgTypeService;
 import top.houry.netty.barrage.service.IBarrageSendMsgToClientService;
 import top.houry.netty.barrage.utils.BarrageConnectInfoUtils;
+import top.houry.netty.barrage.utils.BarrageMsgSensitiveUtils;
 import top.houry.netty.barrage.utils.BarrageRedisUtils;
 
 import java.util.Date;
@@ -65,6 +66,9 @@ public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
             String msgVideoTime = StringUtils.isBlank(clientSendBarrage.getMsgVideoTime()) ? "" : clientSendBarrage.getMsgVideoTime();
             log.info("[Req]-[BarrageReceiveMsgServiceImpl]-[dealWithBarrageMessage]-[msg:{}]-[userId:{}]-[videId:{}]-[msgPosition:{}]", msg, userId, videId, msgPosition);
 
+            // 进行敏感词汇过滤替换
+            filterSensitiveMsg(msg);
+
             BarrageMsg barrageMsg = new BarrageMsg();
             barrageMsg.setMsgColor(msgColor);
             barrageMsg.setMsgContent(msg);
@@ -92,9 +96,13 @@ public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
         if (CollectionUtils.isEmpty(channelHandlerContextLists)) {
             return;
         }
-        channelHandlerContextLists.stream().filter(v -> !v.equals(ctx) && v.channel().isActive())
+        channelHandlerContextLists.stream()
+                .filter(v -> !v.equals(ctx) && v.channel().isActive())
                 .forEach(v -> barrageSendMsgToClientService.sendMsg(barrageMsgBo, v));
     }
 
+    private void filterSensitiveMsg(String msg) {
+        BarrageMsgSensitiveUtils.replaceSensitiveMsg(msg);
+    }
 
 }

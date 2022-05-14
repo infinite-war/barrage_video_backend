@@ -1,45 +1,49 @@
 package top.houry.netty.barrage.utils;
 
-import top.houry.netty.barrage.config.BarrageServerRunner;
+import top.houry.netty.barrage.consts.BarrageMsgSensitiveUtilsConst;
 import top.houry.netty.barrage.entity.BarrageMsgSensitive;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class BarrageSensitiveMsgUtils {
+public class BarrageMsgSensitiveUtils {
 
     private static List<BarrageMsgSensitive> msgSensitives = new ArrayList<>(256);
 
     public static void setSensitiveWords(List<BarrageMsgSensitive> msgSensitives) {
-        BarrageSensitiveMsgUtils.msgSensitives = msgSensitives;
+        BarrageMsgSensitiveUtils.msgSensitives = msgSensitives;
     }
 
     private static final Map<Object, Object> sensitiveWordMap = new HashMap<>(256);
 
 
     public static void main(String[] args) {
-        List<BarrageMsgSensitive> SENSITIVE_WORDS = new ArrayList<>();
-        BarrageMsgSensitive a= new BarrageMsgSensitive();
-        a.setSensitiveMsg("小日本");
-        a.setShowMsg("八格牙路");
-        BarrageMsgSensitive b= new BarrageMsgSensitive();
+//        List<BarrageMsgSensitive> SENSITIVE_WORDS = new ArrayList<>();
+//        BarrageMsgSensitive a = new BarrageMsgSensitive();
+//        a.setSensitiveMsg("小日本");
+//        a.setShowMsg("八格牙路");
+//        BarrageMsgSensitive b = new BarrageMsgSensitive();
+//
+//        b.setSensitiveMsg("我是你爸爸");
+//        b.setShowMsg("哈哈哈");
+//        SENSITIVE_WORDS.add(a);
+//        SENSITIVE_WORDS.add(b);
+//
+//
+//        setSensitiveWords(SENSITIVE_WORDS);
+//
+//
+//        initSensitiveMsgMap();
+//        System.out.println(getSensitiveWord("卖淫嫖娼select杀人犯法共小日本产党国民党select法轮大法"));
 
-        b.setSensitiveMsg("我是你爸爸");
-        b.setShowMsg("哈哈哈");
-        SENSITIVE_WORDS.add(a);
-        SENSITIVE_WORDS.add(b);
-
-
-        setSensitiveWords(SENSITIVE_WORDS);
-
-
-        initSensitiveWordMap();
-        System.out.println(getSensitiveWord("卖淫嫖娼select杀人犯法共小日本产党国民党select法轮大法"));
     }
 
 
-    private static void initSensitiveWordMap() {
+    private static void initSensitiveMsgMap() {
         Map<Object, Object> tempMap;
-        Map<Object, Object> newWorMap;
+        Map<Object, Object> newMsgMap;
         for (BarrageMsgSensitive word : msgSensitives) {
             tempMap = sensitiveWordMap;
             String key = word.getSensitiveMsg();
@@ -50,13 +54,13 @@ public class BarrageSensitiveMsgUtils {
                 if (wordMap != null) {
                     tempMap = (Map) wordMap;
                 } else {
-                    newWorMap = new HashMap<>(2);
-                    newWorMap.put("isEnd", false);
-                    tempMap.put(keyChar, newWorMap);
-                    tempMap = newWorMap;
+                    newMsgMap = new HashMap<>(2);
+                    newMsgMap.put(BarrageMsgSensitiveUtilsConst.SENSITIVE_MSG_END_FLAG, false);
+                    tempMap.put(keyChar, newMsgMap);
+                    tempMap = newMsgMap;
                 }
                 if (i == key.length() - 1) {
-                    tempMap.put("isEnd", true);
+                    tempMap.put(BarrageMsgSensitiveUtilsConst.SENSITIVE_MSG_END_FLAG, true);
                 }
             }
         }
@@ -66,7 +70,7 @@ public class BarrageSensitiveMsgUtils {
     public static boolean contains(String txt) {
         boolean flag = false;
         for (int i = 0; i < txt.length(); i++) {
-            int matchFlag = checkSensitiveWord(txt, i);
+            int matchFlag = checkSensitiveMSg(txt, i);
             if (matchFlag > 0) {
                 flag = true;
             }
@@ -75,7 +79,7 @@ public class BarrageSensitiveMsgUtils {
     }
 
 
-    private static int checkSensitiveWord(String txt, int beginIndex) {
+    private static int checkSensitiveMSg(String txt, int beginIndex) {
         boolean flag = false;
         int matchFlag = 0;
         char word;
@@ -85,7 +89,7 @@ public class BarrageSensitiveMsgUtils {
             nowMap = (Map) nowMap.get(word);
             if (nowMap != null) {
                 matchFlag++;
-                if ((Boolean) nowMap.get("isEnd")) {
+                if ((Boolean) nowMap.get(BarrageMsgSensitiveUtilsConst.SENSITIVE_MSG_END_FLAG)) {
                     flag = true;
                 }
             } else {
@@ -98,10 +102,10 @@ public class BarrageSensitiveMsgUtils {
     }
 
 
-    public static List<String> getSensitiveWord(String txt) {
+    public static List<String> getSensitiveMsg(String txt) {
         List<String> sensitiveWordList = new ArrayList<>();
         for (int i = 0; i < txt.length(); i++) {
-            int length = checkSensitiveWord(txt, i);
+            int length = checkSensitiveMSg(txt, i);
             if (length > 0) {
                 sensitiveWordList.add(txt.substring(i, i + length));
                 i = i + length - 1;
@@ -110,5 +114,12 @@ public class BarrageSensitiveMsgUtils {
         return sensitiveWordList;
     }
 
+    public static String replaceSensitiveMsg(String msg) {
+        List<String> sensitiveMsgList = getSensitiveMsg(msg);
+        sensitiveMsgList.forEach(sensitiveMsg -> {
+            msg.replace(sensitiveMsg, "ss");
+        });
+        return msg;
+    }
 
 }
