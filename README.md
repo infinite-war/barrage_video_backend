@@ -5,6 +5,10 @@
 
 
 ### 版本介绍
+
+[![star](https://gitee.com/MonkeyBrothers/barrage/badge/star.svg?theme=dark)](https://gitee.com/MonkeyBrothers/barrage/stargazers)
+[![fork](https://gitee.com/MonkeyBrothers/barrage/badge/fork.svg?theme=dark)](https://gitee.com/MonkeyBrothers/barrage/members)
+
 后端基于springboot-2.4.3、redis、netty、protocol buffer。
 
 前端基于vue、webSocket技术实现。
