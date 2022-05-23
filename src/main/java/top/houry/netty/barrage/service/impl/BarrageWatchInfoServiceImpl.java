@@ -31,6 +31,10 @@ public class BarrageWatchInfoServiceImpl implements IBarrageWatchInfoService {
 
     @Override
     public void subOnlineWatchCount(String videoId) {
+        int onlineWatchCount = Integer.parseInt(barrageRedisUtils.get(BarrageRedisKeyConst.BARRAGE_ONLINE_POPULATION_KEY + videoId));
+        if(0 >= onlineWatchCount) {
+            return;
+        }
         barrageRedisUtils.decrement(BarrageRedisKeyConst.BARRAGE_ONLINE_POPULATION_KEY + videoId);
     }
 

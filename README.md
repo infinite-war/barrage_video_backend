@@ -6,7 +6,7 @@
 [![fork](https://gitee.com/MonkeyBrothers/barrage/badge/fork.svg?theme=dark)](https://gitee.com/MonkeyBrothers/barrage/members)
 [![Fork me on Gitee](https://gitee.com/MonkeyBrothers/barrage/widgets/widget_6.svg)](https://gitee.com/MonkeyBrothers/barrage)
 ### 演示地址
-http://182.61.19.148/
+http://barrage.houry.top/
 
 ## V2.1.0新版本特性
 1.新增弹幕位置固定功能。
@@ -21,11 +21,6 @@ http://182.61.19.148/
 
 6.加入了实时在线观看人数展示。
 
-
-### 版本介绍
-
-[![star](https://gitee.com/MonkeyBrothers/barrage/badge/star.svg?theme=dark)](https://gitee.com/MonkeyBrothers/barrage/stargazers)
-[![fork](https://gitee.com/MonkeyBrothers/barrage/badge/fork.svg?theme=dark)](https://gitee.com/MonkeyBrothers/barrage/members)
 
 后端基于springboot-2.4.3、redis、netty、protocol buffer。
 
