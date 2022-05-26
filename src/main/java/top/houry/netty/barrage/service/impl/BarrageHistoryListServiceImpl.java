@@ -44,7 +44,7 @@ public class BarrageHistoryListServiceImpl implements IBarrageMsgTypeService {
             barrageMsgList.forEach(v ->{
                 BarrageProto.BarrageHistoryMessage.Builder message = BarrageProto.BarrageHistoryMessage.newBuilder();
                 message.setMsg(v.getMsgColor());
-                message.setCreateTime(BarrageDateUtils.dateToString(v.getCreateTime(), BarrageDateUtils.DateType.NORM_TIME_PATTERN));
+                message.setCreateTime(BarrageDateUtils.dateToString(v.getCreateTime(), BarrageDateUtils.DateType.PURE_DATE_MD_HM_PATTERN));
                 message.setMsgColor(v.getMsgColor());
                 message.setSendTime(BarrageDateUtils.secondToNormTime(Integer.parseInt(StringUtils.isBlank(v.getVideoTime()) ? "0" :v.getVideoTime())));
                 message.setMsg(v.getMsgContent());
