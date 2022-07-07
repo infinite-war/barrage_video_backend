@@ -18,29 +18,6 @@ public class BarrageMsgSensitiveUtils {
 
     private static final Map<Object, Object> sensitiveWordMap = new HashMap<>(256);
 
-
-    public static void main(String[] args) {
-//        List<BarrageMsgSensitive> SENSITIVE_WORDS = new ArrayList<>();
-//        BarrageMsgSensitive a = new BarrageMsgSensitive();
-//        a.setSensitiveMsg("小日本");
-//        a.setShowMsg("八格牙路");
-//        BarrageMsgSensitive b = new BarrageMsgSensitive();
-//
-//        b.setSensitiveMsg("我是你爸爸");
-//        b.setShowMsg("哈哈哈");
-//        SENSITIVE_WORDS.add(a);
-//        SENSITIVE_WORDS.add(b);
-//
-//
-//        setSensitiveWords(SENSITIVE_WORDS);
-//
-//
-//        initSensitiveMsgMap();
-//        System.out.println(getSensitiveWord("卖淫嫖娼select杀人犯法共小日本产党国民党select法轮大法"));
-
-    }
-
-
     private static void initSensitiveMsgMap() {
         Map<Object, Object> tempMap;
         Map<Object, Object> newMsgMap;
