@@ -26,6 +26,7 @@ public class BarrageDateUtils {
         PURE_DATETIME_PATTERN("yyyyMMddHHmmss"),
         PURE_DATETIME_MS_PATTERN("yyyyMMddHHmmssSSS"),
         PURE_DATE_MD_PATTERN("MMdd"),
+        PURE_DATE_MD_HM_PATTERN("MM-dd HH:mm"),
         ;
         String format;
 
