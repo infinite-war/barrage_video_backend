@@ -1,5 +1,6 @@
 package top.houry.netty.barrage.service.impl;
 
+import com.google.protobuf.TextFormat;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -46,9 +47,10 @@ public class BarrageClientLoginMsgServiceImpl implements IBarrageMsgTypeService 
     public void dealWithBarrageMessage(BarrageProto.Barrage barrage, ChannelHandlerContext ctx) {
         try {
             BarrageProto.WebClientLoginReq loginInfo = BarrageProto.WebClientLoginReq.parseFrom(barrage.getBytesData());
+            log.info("[Req]-[BarrageClientLoginMsgServiceImpl]-[dealWithBarrageMessage]-[params{}]",  TextFormat.printToUnicodeString(loginInfo));
             String userId = StringUtils.isBlank(loginInfo.getUserId()) ? "" : loginInfo.getUserId();
             String videoId = StringUtils.isBlank(loginInfo.getVideoId()) ? "" : loginInfo.getVideoId();
-            log.info("[Req]-[BarrageClientLoginMsgServiceImpl]-[dealWithBarrageMessage]-[userId:{}]-[videoId:{}]", userId, videoId);
+
             BarrageConnectInfoUtils.addChannelInfoToBaseMap(videoId, ctx);
 
             cacheOnlinePopulationAndWatchCountToRedis(videoId);

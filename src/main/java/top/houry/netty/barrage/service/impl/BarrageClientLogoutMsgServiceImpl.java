@@ -1,5 +1,6 @@
 package top.houry.netty.barrage.service.impl;
 
+import com.google.protobuf.TextFormat;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -32,10 +33,9 @@ public class BarrageClientLogoutMsgServiceImpl implements IBarrageMsgTypeService
     @Override
     public void dealWithBarrageMessage(BarrageProto.Barrage barrage, ChannelHandlerContext ctx) {
         try {
-            BarrageProto.WebClientLogoutReq loginInfo = BarrageProto.WebClientLogoutReq.parseFrom(barrage.getBytesData());
-            String userId = StringUtils.isBlank(loginInfo.getUserId()) ? "" : loginInfo.getUserId();
-            String videoId = StringUtils.isBlank(loginInfo.getVideoId()) ? "" : loginInfo.getVideoId();
-            log.info("[Req]-[BarrageClientLogoutMsgServiceImpl]-[dealWithBarrageMessage]-[userId:{}]-[videoId:{}]", userId, videoId);
+            BarrageProto.WebClientLogoutReq logoutInfo = BarrageProto.WebClientLogoutReq.parseFrom(barrage.getBytesData());
+            log.info("[Req]-[BarrageClientLogoutMsgServiceImpl]-[dealWithBarrageMessage]-[params{}]",  TextFormat.printToUnicodeString(logoutInfo));
+            String videoId = StringUtils.isBlank(logoutInfo.getVideoId()) ? "" : logoutInfo.getVideoId();
             BarrageConnectInfoUtils.removeChannelInfoFromBaseMap(videoId, ctx);
             watchInfoService.subOnlineWatchCount(videoId);
         } catch (Exception e) {

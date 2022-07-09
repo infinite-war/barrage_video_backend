@@ -1,5 +1,6 @@
 package top.houry.netty.barrage.service.impl;
 
+import com.google.protobuf.TextFormat;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +38,7 @@ public class BarrageHistoryListServiceImpl implements IBarrageMsgTypeService {
     public void dealWithBarrageMessage(BarrageProto.Barrage barrage, ChannelHandlerContext ctx) {
         try {
             BarrageProto.WebClientBarrageHistoryListReq barrageHistory = BarrageProto.WebClientBarrageHistoryListReq.parseFrom(barrage.getBytesData());
+            log.info("[Req]-[BarrageHistoryListServiceImpl]-[dealWithBarrageMessage]-[params{}]",  TextFormat.printToUnicodeString(barrageHistory));
             String videoId = barrageHistory.getVideoId();
             List<BarrageMsg> barrageMsgList = barrageMsgService.getListByVideoId(videoId);
 
