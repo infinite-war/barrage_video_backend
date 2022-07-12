@@ -24,7 +24,7 @@ public class BarrageMsgSensitive implements Serializable {
     /**
      * 主键
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 敏感词

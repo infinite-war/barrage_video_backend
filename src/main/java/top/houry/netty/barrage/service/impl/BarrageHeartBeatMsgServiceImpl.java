@@ -8,15 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.houry.netty.barrage.annotation.BarrageAnnotation;
 import top.houry.netty.barrage.consts.BarrageMsgTypeConst;
-import top.houry.netty.barrage.consts.BarrageRedisKeyConst;
-import top.houry.netty.barrage.consts.BarrageVideoConst;
 import top.houry.netty.barrage.proto.BarrageProto;
 import top.houry.netty.barrage.service.IBarrageMsgService;
 import top.houry.netty.barrage.service.IBarrageMsgTypeService;
 import top.houry.netty.barrage.service.IBarrageWatchInfoService;
-import top.houry.netty.barrage.utils.BarrageRedisUtils;
-
-import java.util.List;
 
 /**
  * @Desc 心跳包信息

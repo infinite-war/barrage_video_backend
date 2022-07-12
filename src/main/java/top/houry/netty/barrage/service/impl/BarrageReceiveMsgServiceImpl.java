@@ -35,16 +35,9 @@ import java.util.List;
 @Slf4j
 public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
 
-    private BarrageRedisUtils redisUtils;
-
     private IBarrageSendMsgToClientService barrageSendMsgToClientService;
 
     private IBarrageMsgService barrageMsgService;
-
-    @Autowired
-    public void setRedisUtils(BarrageRedisUtils redisUtils) {
-        this.redisUtils = redisUtils;
-    }
 
     @Autowired
     public void setBarrageMsgService(IBarrageMsgService barrageMsgService) {
@@ -66,10 +59,9 @@ public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
             String userId = StringUtils.isBlank(clientSendBarrage.getUserId()) ? "" : clientSendBarrage.getUserId();
             String videId = StringUtils.isBlank(clientSendBarrage.getVideoId()) ? "" : clientSendBarrage.getVideoId();
             String msgVideoTime = StringUtils.isBlank(clientSendBarrage.getMsgVideoTime()) ? "" : clientSendBarrage.getMsgVideoTime();
-            log.info("[Req]-[BarrageReceiveMsgServiceImpl]-[dealWithBarrageMessage]-[msg:{}]-[userId:{}]-[videId:{}]-[msgPosition:{}]", msg, userId, videId, msgPosition);
 
             // 进行敏感词汇过滤替换
-            filterSensitiveMsg(msg);
+            msg = filterSensitiveMsg(msg);
 
             BarrageMsg barrageMsg = new BarrageMsg();
             barrageMsg.setMsgColor(msgColor);
@@ -83,7 +75,7 @@ public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
             barrageMsgService.saveBarrageMsg(barrageMsg);
             
             BarrageMsgBo barrageMsgBo = new BarrageMsgBo(msg, msgColor, msgPosition, userId, videId);
-            redisUtils.listPush(BarrageRedisKeyConst.BARRAGE_TOTAL_MSG_KEY + BarrageVideoConst.videId, JSONUtil.toJsonStr(barrageMsgBo));
+            BarrageRedisUtils.listPush(BarrageRedisKeyConst.BARRAGE_TOTAL_MSG_KEY + BarrageVideoConst.videId, JSONUtil.toJsonStr(barrageMsgBo));
 
             notifyOtherUser(videId, ctx, barrageMsgBo);
 
@@ -103,8 +95,8 @@ public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
                 .forEach(v -> barrageSendMsgToClientService.sendMsg(barrageMsgBo, v));
     }
 
-    private void filterSensitiveMsg(String msg) {
-        BarrageMsgSensitiveUtils.replaceSensitiveMsg(msg);
+    private String filterSensitiveMsg(String msg) {
+        return BarrageMsgSensitiveUtils.replaceSensitiveMsg(msg);
     }
 
 }

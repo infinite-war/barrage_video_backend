@@ -25,8 +25,7 @@ public class BarrageContentUtils {
     }
 
     public static BarrageMsgBo getContext() {
-        BarrageRedisUtils redisUtils = BarrageSpringContextUtil.getBean(BarrageRedisUtils.class);
-        List<String> barrages = redisUtils.listGetAll(BarrageRedisKeyConst.BARRAGE_TOTAL_MSG_KEY + BarrageVideoConst.videId);
+        List<String> barrages = BarrageRedisUtils.listGetAll(BarrageRedisKeyConst.BARRAGE_TOTAL_MSG_KEY + BarrageVideoConst.videId);
         List<BarrageMsgBo> barrageMsgList = new ArrayList<>(barrages.size());
         barrages.forEach(v -> {
             BarrageMsgBo msgBo = JSONUtil.toBean(v, BarrageMsgBo.class);
@@ -34,16 +33,5 @@ public class BarrageContentUtils {
         });
         return getContext(barrageMsgList);
     }
-
-//    public static String getContext() {
-//        BarrageRedisUtils redisUtils = BarrageSpringContextUtil.getBean(BarrageRedisUtils.class);
-//        List<String> barrages = redisUtils.listGetAll(BarrageRedisKeyConst.BARRAGE_TOTAL_MSG_KEY + BarrageVideoConst.videId);
-//        List<String> barrageMsgList = new ArrayList<>(barrages.size());
-//        barrages.forEach(v -> {
-//            BarrageMsgBo msgBo = JSONUtil.toBean(v, BarrageMsgBo.class);
-//            barrageMsgList.add(StringUtils.isBlank(msgBo.getMsg()) ? "" : msgBo.getMsg());
-//        });
-//        return getContext(barrageMsgList.toArray(new String[0]));
-//    }
 
 }

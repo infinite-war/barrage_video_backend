@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class BarrageMsgSensitiveUtils {
 
@@ -14,6 +15,7 @@ public class BarrageMsgSensitiveUtils {
 
     public static void setSensitiveWords(List<BarrageMsgSensitive> msgSensitives) {
         BarrageMsgSensitiveUtils.msgSensitives = msgSensitives;
+        initSensitiveMsgMap();
     }
 
     private static final Map<Object, Object> sensitiveWordMap = new HashMap<>(256);
@@ -93,10 +95,12 @@ public class BarrageMsgSensitiveUtils {
 
     public static String replaceSensitiveMsg(String msg) {
         List<String> sensitiveMsgList = getSensitiveMsg(msg);
+        AtomicReference<String> retMsg = new AtomicReference<>();
         sensitiveMsgList.forEach(sensitiveMsg -> {
-            msg.replace(sensitiveMsg, "ss");
+            // TODO
+            retMsg.set(msg.replace(sensitiveMsg, "ss"));
         });
-        return msg;
+        return retMsg.get();
     }
 
 }
