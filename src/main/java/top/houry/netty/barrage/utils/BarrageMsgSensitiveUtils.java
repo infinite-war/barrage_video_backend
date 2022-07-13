@@ -1,6 +1,7 @@
 package top.houry.netty.barrage.utils;
 
 import top.houry.netty.barrage.consts.BarrageMsgSensitiveUtilsConst;
+import top.houry.netty.barrage.consts.BarrageRedisKeyConst;
 import top.houry.netty.barrage.entity.BarrageMsgSensitive;
 
 import java.util.ArrayList;
@@ -97,8 +98,8 @@ public class BarrageMsgSensitiveUtils {
         List<String> sensitiveMsgList = getSensitiveMsg(msg);
         AtomicReference<String> retMsg = new AtomicReference<>();
         sensitiveMsgList.forEach(sensitiveMsg -> {
-            // TODO
-            retMsg.set(msg.replace(sensitiveMsg, "ss"));
+            String showMsg = BarrageRedisUtils.hashGet(BarrageRedisKeyConst.BARRAGE_MSG_SENSITIVE_KEY, sensitiveMsg);
+            retMsg.set(msg.replace(sensitiveMsg, showMsg));
         });
         return retMsg.get();
     }

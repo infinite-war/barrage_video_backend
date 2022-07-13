@@ -19,5 +19,9 @@ public interface BarrageRedisKeyConst {
      * 历史总弹幕数
      */
     String BARRAGE_TOTAL_MSG_KEY = "BARRAGE:TOTAL:MSG:";
+    /**
+     * 敏感词汇前缀
+     */
+    String BARRAGE_MSG_SENSITIVE_KEY = "BARRAGE:MSG:SENSITIVE:KEY:";
 
 }
