@@ -96,10 +96,10 @@ public class BarrageMsgSensitiveUtils {
 
     public static String replaceSensitiveMsg(String msg) {
         List<String> sensitiveMsgList = getSensitiveMsg(msg);
-        AtomicReference<String> retMsg = new AtomicReference<>();
+        AtomicReference<String> retMsg = new AtomicReference<>(msg);
         sensitiveMsgList.forEach(sensitiveMsg -> {
             String showMsg = BarrageRedisUtils.hashGet(BarrageRedisKeyConst.BARRAGE_MSG_SENSITIVE_KEY, sensitiveMsg);
-            retMsg.set(msg.replace(sensitiveMsg, showMsg));
+            retMsg.set(retMsg.get().replace(sensitiveMsg, showMsg));
         });
         return retMsg.get();
     }
