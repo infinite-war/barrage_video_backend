@@ -1,3 +1,18 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 本地
+ Source Server Type    : MySQL
+ Source Server Version : 50721
+ Source Host           : localhost:3306
+ Source Schema         : barrage
+
+ Target Server Type    : MySQL
+ Target Server Version : 50721
+ File Encoding         : 65001
+
+ Date: 13/07/2022 21:18:30
+*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -25,7 +40,7 @@ CREATE TABLE `t_barrage_msg`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_barrage_msg_sensitive`;
 CREATE TABLE `t_barrage_msg_sensitive`  (
-  `id` int(11) NOT NULL COMMENT '主键',
+  `id` bigint(19) UNSIGNED NOT NULL COMMENT '主键',
   `sensitive_msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '敏感词',
   `show_msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '展示词',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
