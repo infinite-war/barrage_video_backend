@@ -1,12 +1,14 @@
 package top.houry.netty.barrage.utils;
 
 import top.houry.netty.barrage.consts.BarrageMsgSensitiveUtilsConst;
+import top.houry.netty.barrage.consts.BarrageRedisKeyConst;
 import top.houry.netty.barrage.entity.BarrageMsgSensitive;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class BarrageMsgSensitiveUtils {
 
@@ -14,32 +16,10 @@ public class BarrageMsgSensitiveUtils {
 
     public static void setSensitiveWords(List<BarrageMsgSensitive> msgSensitives) {
         BarrageMsgSensitiveUtils.msgSensitives = msgSensitives;
+        initSensitiveMsgMap();
     }
 
     private static final Map<Object, Object> sensitiveWordMap = new HashMap<>(256);
-
-
-    public static void main(String[] args) {
-//        List<BarrageMsgSensitive> SENSITIVE_WORDS = new ArrayList<>();
-//        BarrageMsgSensitive a = new BarrageMsgSensitive();
-//        a.setSensitiveMsg("小日本");
-//        a.setShowMsg("八格牙路");
-//        BarrageMsgSensitive b = new BarrageMsgSensitive();
-//
-//        b.setSensitiveMsg("我是你爸爸");
-//        b.setShowMsg("哈哈哈");
-//        SENSITIVE_WORDS.add(a);
-//        SENSITIVE_WORDS.add(b);
-//
-//
-//        setSensitiveWords(SENSITIVE_WORDS);
-//
-//
-//        initSensitiveMsgMap();
-//        System.out.println(getSensitiveWord("卖淫嫖娼select杀人犯法共小日本产党国民党select法轮大法"));
-
-    }
-
 
     private static void initSensitiveMsgMap() {
         Map<Object, Object> tempMap;
@@ -116,10 +96,12 @@ public class BarrageMsgSensitiveUtils {
 
     public static String replaceSensitiveMsg(String msg) {
         List<String> sensitiveMsgList = getSensitiveMsg(msg);
+        AtomicReference<String> retMsg = new AtomicReference<>(msg);
         sensitiveMsgList.forEach(sensitiveMsg -> {
-            msg.replace(sensitiveMsg, "ss");
+            String showMsg = BarrageRedisUtils.hashGet(BarrageRedisKeyConst.BARRAGE_MSG_SENSITIVE_KEY, sensitiveMsg);
+            retMsg.set(retMsg.get().replace(sensitiveMsg, showMsg));
         });
-        return msg;
+        return retMsg.get();
     }
 
 }

@@ -1,6 +1,7 @@
 package top.houry.netty.barrage.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.houry.netty.barrage.entity.BarrageMsg;
 import top.houry.netty.barrage.dao.BarrageMsgMapper;
 import top.houry.netty.barrage.service.IBarrageMsgService;
@@ -27,11 +28,11 @@ public class BarrageMsgServiceImpl extends ServiceImpl<BarrageMsgMapper, Barrage
 
     @Override
     public List<BarrageMsg> getListByVideoId(String videoId) {
-        return list(Wrappers.<BarrageMsg>lambdaQuery()
+        Page<BarrageMsg> page = new Page<BarrageMsg>().setCurrent(1).setSize(200);
+        return page(page, Wrappers.<BarrageMsg>lambdaQuery()
                 .eq(BarrageMsg::getDelFlag, false)
                 .eq(BarrageMsg::getVideoId, videoId)
-                .orderByDesc(BarrageMsg::getCreateTime)
-        );
+                .orderByDesc(BarrageMsg::getCreateTime)).getRecords();
     }
 
     @Override

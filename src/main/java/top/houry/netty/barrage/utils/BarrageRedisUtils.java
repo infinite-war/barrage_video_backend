@@ -1,8 +1,6 @@
 package top.houry.netty.barrage.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -11,14 +9,12 @@ import java.util.List;
  * @Author houry
  * @Date 2021/3/29 14:10
  **/
-@Component
 public class BarrageRedisUtils {
 
-    private StringRedisTemplate redisTemplate;
+    private static StringRedisTemplate redisTemplate;
 
-    @Autowired
-    public void setRedisTemplate(StringRedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    public static void setStringRedisTemplate(StringRedisTemplate redisTemplate) {
+        BarrageRedisUtils.redisTemplate = redisTemplate;
     }
 
     /**
@@ -27,7 +23,7 @@ public class BarrageRedisUtils {
      * @param key   数据key
      * @param value 数据值
      */
-    public void listPush(String key, String value) {
+    public static void listPush(String key, String value) {
         redisTemplate.opsForList().rightPush(key, value);
     }
 
@@ -37,7 +33,7 @@ public class BarrageRedisUtils {
      * @param key 指定的RedisKey
      * @returnK 数据集合
      */
-    public List<String> listGetAll(String key) {
+    public static List<String> listGetAll(String key) {
         return redisTemplate.opsForList().range(key, 0, -1);
     }
 
@@ -48,8 +44,12 @@ public class BarrageRedisUtils {
      * @param hKey  hKey
      * @param value value
      */
-    public void hashPut(String key, String hKey, String value) {
-        this.redisTemplate.opsForHash().put(key, hKey, value);
+    public static void hashPut(String key, String hKey, String value) {
+        redisTemplate.opsForHash().put(key, hKey, value);
+    }
+
+    public static String hashGet(String key, String hKey) {
+        return (String) redisTemplate.opsForHash().get(key, hKey);
     }
 
     /**
@@ -57,7 +57,7 @@ public class BarrageRedisUtils {
      *
      * @param key key
      */
-    public void increment(String key) {
+    public static void increment(String key) {
         redisTemplate.opsForValue().increment(key);
     }
 
@@ -66,7 +66,7 @@ public class BarrageRedisUtils {
      *
      * @param key key
      */
-    public void decrement(String key) {
+    public static void decrement(String key) {
         redisTemplate.opsForValue().decrement(key);
     }
 
@@ -76,7 +76,7 @@ public class BarrageRedisUtils {
      * @param key key
      * @return value值
      */
-    public String get(String key) {
+    public static String get(String key) {
         return redisTemplate.opsForValue().get(key);
     }
 

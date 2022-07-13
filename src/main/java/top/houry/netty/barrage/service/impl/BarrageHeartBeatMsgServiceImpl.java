@@ -1,5 +1,6 @@
 package top.houry.netty.barrage.service.impl;
 
+import com.google.protobuf.TextFormat;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -7,15 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.houry.netty.barrage.annotation.BarrageAnnotation;
 import top.houry.netty.barrage.consts.BarrageMsgTypeConst;
-import top.houry.netty.barrage.consts.BarrageRedisKeyConst;
-import top.houry.netty.barrage.consts.BarrageVideoConst;
 import top.houry.netty.barrage.proto.BarrageProto;
 import top.houry.netty.barrage.service.IBarrageMsgService;
 import top.houry.netty.barrage.service.IBarrageMsgTypeService;
 import top.houry.netty.barrage.service.IBarrageWatchInfoService;
-import top.houry.netty.barrage.utils.BarrageRedisUtils;
-
-import java.util.List;
 
 /**
  * @Desc 心跳包信息
@@ -49,11 +45,11 @@ public class BarrageHeartBeatMsgServiceImpl implements IBarrageMsgTypeService {
      * @param ctx     通道上下文信息
      */
     @Override
-    public void dealWithBarrageMessage(BarrageProto.Barrage barrage, ChannelHandlerContext ctx)  {
+    public void dealWithBarrageMessage(BarrageProto.Barrage barrage, ChannelHandlerContext ctx) {
         try {
-            log.info("[BarrageHeartBeatMsgServiceImpl]-[dealWithBarrageMessage]-[接收到心跳]-[ctx:{}]", ctx.channel().toString());
-
             BarrageProto.WebClientHeartBeatReq heartBeatReq = BarrageProto.WebClientHeartBeatReq.parseFrom(barrage.getBytesData());
+            log.info("[Req]-[BarrageHeartBeatMsgServiceImpl]-[dealWithBarrageMessage]-[接收到心跳]-[ctx:{}]-[params:{}]", ctx.channel().toString(), TextFormat.printToUnicodeString(heartBeatReq));
+
             String videoId = StringUtils.isBlank(heartBeatReq.getVideoId()) ? "" : heartBeatReq.getVideoId();
 
             BarrageProto.Barrage.Builder builder = BarrageProto.Barrage.newBuilder();

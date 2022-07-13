@@ -4,9 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import top.houry.netty.barrage.consts.BarrageRedisKeyConst;
+import top.houry.netty.barrage.entity.BarrageMsgSensitive;
 import top.houry.netty.barrage.netty.WebSocketNettyServer;
 import top.houry.netty.barrage.service.IBarrageMsgSensitiveService;
 import top.houry.netty.barrage.utils.BarrageMsgSensitiveUtils;
+import top.houry.netty.barrage.utils.BarrageRedisUtils;
+
+import java.util.List;
 
 /**
  * @Desc 抽取公共的需要在SpringBoot加载完毕之后加载的业务
@@ -43,7 +48,10 @@ public class BarrageServerRunner implements ApplicationRunner {
     }
 
     private void initSensitiveMsg() {
-        BarrageMsgSensitiveUtils.setSensitiveWords(barrageMsgSensitiveService.list());
+        List<BarrageMsgSensitive> msgSensitives = barrageMsgSensitiveService.list();
+        BarrageMsgSensitiveUtils.setSensitiveWords(msgSensitives);
+
+        msgSensitives.forEach(msgSensitive -> BarrageRedisUtils.hashPut(BarrageRedisKeyConst.BARRAGE_MSG_SENSITIVE_KEY, msgSensitive.getSensitiveMsg(), msgSensitive.getShowMsg()));
     }
 
 }
