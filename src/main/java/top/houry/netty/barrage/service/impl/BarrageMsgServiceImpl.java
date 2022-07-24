@@ -28,7 +28,7 @@ public class BarrageMsgServiceImpl extends ServiceImpl<BarrageMsgMapper, Barrage
 
     @Override
     public List<BarrageMsg> getListByVideoId(String videoId) {
-        Page<BarrageMsg> page = new Page<BarrageMsg>().setCurrent(1).setSize(200);
+        Page<BarrageMsg> page = new Page<BarrageMsg>().setCurrent(1).setSize(80);
         return page(page, Wrappers.<BarrageMsg>lambdaQuery()
                 .eq(BarrageMsg::getDelFlag, false)
                 .eq(BarrageMsg::getVideoId, videoId)
