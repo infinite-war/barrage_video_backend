@@ -37,6 +37,8 @@ public class BarrageMsgServiceImpl extends ServiceImpl<BarrageMsgMapper, Barrage
 
     @Override
     public int getMsgCountByVideoId(String videoId) {
-        return getListByVideoId(videoId).size();
+        return count(Wrappers.<BarrageMsg>lambdaQuery()
+                .eq(BarrageMsg::getDelFlag, false)
+                .eq(BarrageMsg::getVideoId,videoId));
     }
 }

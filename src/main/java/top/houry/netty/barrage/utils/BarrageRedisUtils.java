@@ -80,4 +80,15 @@ public class BarrageRedisUtils {
         return redisTemplate.opsForValue().get(key);
     }
 
+
+    /**
+     * 根据key设置value值
+     *
+     * @param key   key
+     * @param value value
+     */
+    public static void set(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
 }

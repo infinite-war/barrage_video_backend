@@ -23,8 +23,8 @@
         <version.protobuf-java>3.6.1</version.protobuf-java>
         <version.mysql-connector-java>8.0.19</version.mysql-connector-java>
         <version.druid-spring-boot-starter>1.2.9</version.druid-spring-boot-starter>
-        <version.mybatis-plus-boot-starter>3.4.3.1</version.mybatis-plus-boot-starter>
-        <version.mybatis-plus-generator>3.4.1</version.mybatis-plus-generator>
+        <version.mybatis-plus-boot-starter>3.5.2</version.mybatis-plus-boot-starter>
+        <version.mybatis-plus-generator>3.5.2</version.mybatis-plus-generator>
         <version.velocity-engine-core>2.2</version.velocity-engine-core>
 
     </properties>

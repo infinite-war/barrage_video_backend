@@ -5,6 +5,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import top.houry.netty.barrage.consts.BarrageRedisKeyConst;
+import top.houry.netty.barrage.consts.BarrageVideoConst;
 import top.houry.netty.barrage.entity.BarrageMsgSensitive;
 import top.houry.netty.barrage.netty.WebSocketNettyServer;
 import top.houry.netty.barrage.service.IBarrageMsgSensitiveService;
@@ -41,6 +42,7 @@ public class BarrageServerRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         startNetty();
         initSensitiveMsg();
+        resetOnlinePopulationNumber();
     }
 
     private void startNetty() {
@@ -50,8 +52,11 @@ public class BarrageServerRunner implements ApplicationRunner {
     private void initSensitiveMsg() {
         List<BarrageMsgSensitive> msgSensitives = barrageMsgSensitiveService.list();
         BarrageMsgSensitiveUtils.setSensitiveWords(msgSensitives);
-
         msgSensitives.forEach(msgSensitive -> BarrageRedisUtils.hashPut(BarrageRedisKeyConst.BARRAGE_MSG_SENSITIVE_KEY, msgSensitive.getSensitiveMsg(), msgSensitive.getShowMsg()));
+    }
+
+    private void resetOnlinePopulationNumber() {
+        BarrageRedisUtils.set(BarrageRedisKeyConst.BARRAGE_ONLINE_POPULATION_KEY + BarrageVideoConst.videId, "0");
     }
 
 }
