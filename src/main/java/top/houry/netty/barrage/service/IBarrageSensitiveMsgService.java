@@ -5,5 +5,5 @@ package top.houry.netty.barrage.service;
  * @Author houruiyang
  * @Date 2022/1/21
  **/
-public interface IBarrageSensitiveMsgService {
-}
+//public interface IBarrageSensitiveMsgService {
+//}
