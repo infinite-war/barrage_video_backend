@@ -17,7 +17,7 @@ import top.houry.netty.barrage.entity.BarrageMsg;
 import top.houry.netty.barrage.proto.BarrageProto;
 import top.houry.netty.barrage.service.IBarrageMsgService;
 import top.houry.netty.barrage.service.IBarrageMsgTypeService;
-import top.houry.netty.barrage.service.IBarrageSendMsgToClientService;
+import top.houry.netty.barrage.service.IBarrageMsgSendToClientService;
 import top.houry.netty.barrage.utils.BarrageConnectInfoUtils;
 import top.houry.netty.barrage.utils.BarrageMsgSensitiveUtils;
 import top.houry.netty.barrage.utils.BarrageRedisUtils;
@@ -35,7 +35,7 @@ import java.util.List;
 @Slf4j
 public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
 
-    private IBarrageSendMsgToClientService barrageSendMsgToClientService;
+    private IBarrageMsgSendToClientService barrageSendMsgToClientService;
 
     private IBarrageMsgService barrageMsgService;
 
@@ -44,7 +44,7 @@ public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
         this.barrageMsgService = barrageMsgService;
     }
     @Autowired
-    public void setBarrageSendMsgToClientService(IBarrageSendMsgToClientService barrageSendMsgToClientService) {
+    public void setBarrageSendMsgToClientService(IBarrageMsgSendToClientService barrageSendMsgToClientService) {
         this.barrageSendMsgToClientService = barrageSendMsgToClientService;
     }
 
@@ -69,7 +69,7 @@ public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
             barrageMsg.setMsgPosition(msgPosition);
             barrageMsg.setUserId(Long.parseLong(userId));
             barrageMsg.setVideoId(Long.parseLong(videId));
-            barrageMsg.setVideoTime(msgVideoTime);
+            barrageMsg.setVideoTime(Long.valueOf(msgVideoTime));
             barrageMsg.setCreateTime(new Date());
             barrageMsg.setUpdateTime(new Date());
             barrageMsgService.saveBarrageMsg(barrageMsg);

@@ -52,9 +52,9 @@ public class BarrageMsg implements Serializable {
     private String msgColor;
 
     /**
-     * 发送消息的视频时间
+     * 发送消息的视频时间 (毫秒)
      */
-    private String videoTime;
+    private Long videoTime;
 
     /**
      * 删除标识 0-未删除 1-已删除

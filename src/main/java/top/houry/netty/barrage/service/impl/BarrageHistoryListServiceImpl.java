@@ -1,5 +1,6 @@
 package top.houry.netty.barrage.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.google.protobuf.TextFormat;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +49,7 @@ public class BarrageHistoryListServiceImpl implements IBarrageMsgTypeService {
                 message.setMsg(v.getMsgColor());
                 message.setCreateTime(BarrageDateUtils.dateToString(v.getCreateTime(), BarrageDateUtils.DateType.PURE_DATE_MD_HM_PATTERN));
                 message.setMsgColor(v.getMsgColor());
-                message.setSendTime(BarrageDateUtils.secondToNormTime(Integer.parseInt(StringUtils.isBlank(v.getVideoTime()) ? "0" :v.getVideoTime())));
+                message.setSendTime(BarrageDateUtils.secondToNormTime(ObjectUtil.defaultIfNull(v.getVideoTime(), 0L)));
                 message.setMsg(v.getMsgContent());
                 msgList.add(message.build());
             });

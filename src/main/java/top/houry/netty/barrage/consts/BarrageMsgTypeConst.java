@@ -27,13 +27,13 @@ public interface BarrageMsgTypeConst {
     String WEB_CLIENT_LOGOUT_REQ = "web.client.logout.req";
     String WEB_CLIENT_LOGOUT_RESP = "web.client.logout.resp";
     /**
-     * web客户端请求历史弹幕
+     * web客户端请求历史弹幕上行下行消息
      */
     String WEB_CLIENT_BARRAGE_HISTORY_REQ = "web.client.barrage.history.req";
     String WEB_CLIENT_BARRAGE_HISTORY_RESP = "web.client.barrage.history.resp";
 
     /**
-     * web客户端滚动弹幕
+     * web客户端滚动弹幕上行下行消息
      */
     String WEB_CLIENT_BARRAGE_MSG_ROLLING_REQ = "web.client.barrage.msg.rolling.req";
     String WEB_CLIENT_BARRAGE_MSG_ROLLING_RESP = "web.client.barrage.msg.rolling.resp";

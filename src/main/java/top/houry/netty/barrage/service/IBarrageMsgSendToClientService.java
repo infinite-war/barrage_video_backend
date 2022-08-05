@@ -8,6 +8,6 @@ import top.houry.netty.barrage.bo.BarrageMsgBo;
  * @Author houruiyang
  * @Date 2022/2/2
  **/
-public interface IBarrageSendMsgToClientService {
+public interface IBarrageMsgSendToClientService {
     void sendMsg(BarrageMsgBo barrageMsgBo, ChannelHandlerContext context);
 }
