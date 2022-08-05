@@ -77,3 +77,13 @@ message WebClientBarrageHistoryListReq {
 message WebClientBarrageHistoryListResp {
   repeated BarrageHistoryMessage list = 1;
 }
+
+message WebClientBarrageMsgRollingReq {
+  string userId = 1;
+  string videoId = 2;
+  string currentVideoTime = 3;
+}
+
+message WebClientBarrageMsgRollingResp {
+  repeated BarrageHistoryMessage list = 1;
+}

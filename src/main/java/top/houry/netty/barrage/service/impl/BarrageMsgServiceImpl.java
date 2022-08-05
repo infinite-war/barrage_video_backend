@@ -2,6 +2,7 @@ package top.houry.netty.barrage.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import top.houry.netty.barrage.consts.BarrageVideoConst;
 import top.houry.netty.barrage.entity.BarrageMsg;
 import top.houry.netty.barrage.dao.BarrageMsgMapper;
 import top.houry.netty.barrage.service.IBarrageMsgService;
@@ -40,5 +41,13 @@ public class BarrageMsgServiceImpl extends ServiceImpl<BarrageMsgMapper, Barrage
         return count(Wrappers.<BarrageMsg>lambdaQuery()
                 .eq(BarrageMsg::getDelFlag, false)
                 .eq(BarrageMsg::getVideoId,videoId));
+    }
+
+    @Override
+    public List<BarrageMsg> getRollingBarrages(String videoId, String currentVideoTime) {
+        return list(Wrappers.<BarrageMsg>lambdaQuery()
+                .eq(BarrageMsg::getDelFlag, false)
+                .eq(BarrageMsg::getVideoId, videoId)
+                .between(BarrageMsg::getVideoTime, Integer.parseInt(currentVideoTime), Integer.parseInt(currentVideoTime) + BarrageVideoConst.videoTimeThreshold));
     }
 }

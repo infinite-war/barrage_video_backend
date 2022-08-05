@@ -10,7 +10,7 @@
     </parent>
     <groupId>top.houry.netty</groupId>
     <artifactId>barrage</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>2.2.2-SNAPSHOT</version>
     <name>barrage</name>
     <description>netty-视频弹幕聊天网页</description>
 

@@ -8,4 +8,6 @@ package top.houry.netty.barrage.consts;
 public interface BarrageVideoConst {
 
     String videId = "1294384753222123";
+
+    int videoTimeThreshold = 5;
 }

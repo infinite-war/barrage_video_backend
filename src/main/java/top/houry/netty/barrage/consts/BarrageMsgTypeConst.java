@@ -31,4 +31,10 @@ public interface BarrageMsgTypeConst {
      */
     String WEB_CLIENT_BARRAGE_HISTORY_REQ = "web.client.barrage.history.req";
     String WEB_CLIENT_BARRAGE_HISTORY_RESP = "web.client.barrage.history.resp";
+
+    /**
+     * web客户端滚动弹幕
+     */
+    String WEB_CLIENT_BARRAGE_MSG_ROLLING_REQ = "web.client.barrage.msg.rolling.req";
+    String WEB_CLIENT_BARRAGE_MSG_ROLLING_RESP = "web.client.barrage.msg.rolling.resp";
 }
