@@ -56,7 +56,7 @@ public class BarrageServerRunner implements ApplicationRunner {
     }
 
     private void resetOnlinePopulationNumber() {
-        BarrageRedisUtils.set(BarrageRedisKeyConst.BARRAGE_ONLINE_POPULATION_KEY + BarrageVideoConst.videId, "0");
+        BarrageRedisUtils.set(BarrageRedisKeyConst.BARRAGE_ONLINE_POPULATION_KEY + BarrageVideoConst.VIDE_ID, "0");
     }
 
 }

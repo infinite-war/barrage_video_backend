@@ -25,7 +25,7 @@ public class BarrageAnnotationPostProcessor implements BeanPostProcessor {
         }
         String msgType = annotation.msgType();
         if (BarrageMsgBeanUtils.exist(msgType)) {
-            throw new RuntimeException(msgType + "is already exist");
+            throw new RuntimeException(msgType + "相同类型的Bean已经存在，请重新调整");
         }
         BarrageMsgBeanUtils.addMsgType(msgType, beanName);
         log.info("[BarrageAnnotationPostProcessor]-[postProcessAfterInitialization]-[添加消息类型到缓存中]-[msgType:{}]", msgType);

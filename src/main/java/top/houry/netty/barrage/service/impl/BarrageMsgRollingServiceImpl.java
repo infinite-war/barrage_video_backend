@@ -4,7 +4,6 @@ import cn.hutool.core.util.ObjectUtil;
 import com.google.protobuf.TextFormat;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.houry.netty.barrage.annotation.BarrageAnnotation;
@@ -39,19 +38,20 @@ public class BarrageMsgRollingServiceImpl implements IBarrageMsgTypeService {
     public void dealWithBarrageMessage(BarrageProto.Barrage barrage, ChannelHandlerContext ctx) {
         try {
             BarrageProto.WebClientBarrageMsgRollingReq msgRollingReq = BarrageProto.WebClientBarrageMsgRollingReq.parseFrom(barrage.getBytesData());
-            log.info("[Req]-[BarrageMsgRollingServiceImpl]-[dealWithBarrageMessage]-[params:{}]",  TextFormat.printToUnicodeString(msgRollingReq));
+            log.info("[Req]-[BarrageMsgRollingServiceImpl]-[dealWithBarrageMessage]-[params:{}]", TextFormat.printToUnicodeString(msgRollingReq));
 
             String videoId = msgRollingReq.getVideoId();
-            String currentVideoTime = msgRollingReq.getCurrentVideoTime();
+            int currentVideoTime = msgRollingReq.getCurrentVideoTime();
             List<BarrageMsg> barrageMsgList = barrageMsgService.getRollingBarrages(videoId, currentVideoTime);
 
             List<BarrageProto.BarrageHistoryMessage> msgList = new ArrayList<>();
-            barrageMsgList.forEach(v ->{
+            barrageMsgList.forEach(v -> {
                 BarrageProto.BarrageHistoryMessage.Builder message = BarrageProto.BarrageHistoryMessage.newBuilder();
                 message.setMsg(v.getMsgColor());
+                message.setMsgPosition(v.getMsgPosition());
                 message.setCreateTime(BarrageDateUtils.dateToString(v.getCreateTime(), BarrageDateUtils.DateType.PURE_DATE_MD_HM_PATTERN));
                 message.setMsgColor(v.getMsgColor());
-                message.setSendTime(BarrageDateUtils.secondToNormTime(ObjectUtil.defaultIfNull(v.getVideoTime(), 0L)));
+                message.setSendTime(BarrageDateUtils.secondToNormTime(ObjectUtil.defaultIfNull(v.getVideoTime(), 0)));
                 message.setMsg(v.getMsgContent());
                 msgList.add(message.build());
             });

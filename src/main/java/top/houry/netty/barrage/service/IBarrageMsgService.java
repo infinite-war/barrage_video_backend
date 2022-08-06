@@ -20,5 +20,5 @@ public interface IBarrageMsgService extends IService<BarrageMsg> {
 
     int getMsgCountByVideoId(String videoId);
 
-    List<BarrageMsg> getRollingBarrages(String videoId, String currentVideoTime);
+    List<BarrageMsg> getRollingBarrages(String videoId, int currentVideoTime);
 }

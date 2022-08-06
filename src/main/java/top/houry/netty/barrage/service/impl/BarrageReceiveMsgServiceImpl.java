@@ -1,10 +1,11 @@
 package top.houry.netty.barrage.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.google.protobuf.TextFormat;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -15,9 +16,9 @@ import top.houry.netty.barrage.consts.BarrageRedisKeyConst;
 import top.houry.netty.barrage.consts.BarrageVideoConst;
 import top.houry.netty.barrage.entity.BarrageMsg;
 import top.houry.netty.barrage.proto.BarrageProto;
+import top.houry.netty.barrage.service.IBarrageMsgSendToClientService;
 import top.houry.netty.barrage.service.IBarrageMsgService;
 import top.houry.netty.barrage.service.IBarrageMsgTypeService;
-import top.houry.netty.barrage.service.IBarrageMsgSendToClientService;
 import top.houry.netty.barrage.utils.BarrageConnectInfoUtils;
 import top.houry.netty.barrage.utils.BarrageMsgSensitiveUtils;
 import top.houry.netty.barrage.utils.BarrageRedisUtils;
@@ -43,6 +44,7 @@ public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
     public void setBarrageMsgService(IBarrageMsgService barrageMsgService) {
         this.barrageMsgService = barrageMsgService;
     }
+
     @Autowired
     public void setBarrageSendMsgToClientService(IBarrageMsgSendToClientService barrageSendMsgToClientService) {
         this.barrageSendMsgToClientService = barrageSendMsgToClientService;
@@ -52,13 +54,13 @@ public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
     public void dealWithBarrageMessage(BarrageProto.Barrage barrage, ChannelHandlerContext ctx) {
         try {
             BarrageProto.WebClientSendBarrageReq clientSendBarrage = BarrageProto.WebClientSendBarrageReq.parseFrom(barrage.getBytesData());
-            log.info("[Req]-[BarrageReceiveMsgServiceImpl]-[dealWithBarrageMessage]-[params{}]",  TextFormat.printToUnicodeString(clientSendBarrage));
-            String msg = StringUtils.isBlank(clientSendBarrage.getMsg()) ? "我们都是追梦人" : clientSendBarrage.getMsg();
-            String msgColor = StringUtils.isBlank(clientSendBarrage.getMsgColor()) ? "#FFFFFF" : clientSendBarrage.getMsgColor();
-            int msgPosition =  clientSendBarrage.getMsgPosition();
-            String userId = StringUtils.isBlank(clientSendBarrage.getUserId()) ? "" : clientSendBarrage.getUserId();
-            String videId = StringUtils.isBlank(clientSendBarrage.getVideoId()) ? "" : clientSendBarrage.getVideoId();
-            String msgVideoTime = StringUtils.isBlank(clientSendBarrage.getMsgVideoTime()) ? "" : clientSendBarrage.getMsgVideoTime();
+            log.info("[Req]-[BarrageReceiveMsgServiceImpl]-[dealWithBarrageMessage]-[params{}]", TextFormat.printToUnicodeString(clientSendBarrage));
+            String msg = StrUtil.blankToDefault(clientSendBarrage.getMsg(), "我们都是追梦人");
+            String msgColor = StrUtil.blankToDefault(clientSendBarrage.getMsgColor(), "#FFFFFF");
+            String userId = StrUtil.blankToDefault(clientSendBarrage.getUserId(), "");
+            String videId = StrUtil.blankToDefault(clientSendBarrage.getVideoId(), "");
+            int msgPosition = ObjectUtil.defaultIfNull(clientSendBarrage.getMsgPosition(), 0);
+            int msgVideoTime = ObjectUtil.defaultIfNull(clientSendBarrage.getMsgVideoTime(), 1);
 
             // 进行敏感词汇过滤替换
             msg = filterSensitiveMsg(msg);
@@ -69,13 +71,13 @@ public class BarrageReceiveMsgServiceImpl implements IBarrageMsgTypeService {
             barrageMsg.setMsgPosition(msgPosition);
             barrageMsg.setUserId(Long.parseLong(userId));
             barrageMsg.setVideoId(Long.parseLong(videId));
-            barrageMsg.setVideoTime(Long.valueOf(msgVideoTime));
+            barrageMsg.setVideoTime(0 < msgVideoTime ? msgVideoTime : 1);
             barrageMsg.setCreateTime(new Date());
             barrageMsg.setUpdateTime(new Date());
             barrageMsgService.saveBarrageMsg(barrageMsg);
-            
+
             BarrageMsgBo barrageMsgBo = new BarrageMsgBo(msg, msgColor, msgPosition, userId, videId);
-            BarrageRedisUtils.listPush(BarrageRedisKeyConst.BARRAGE_TOTAL_MSG_KEY + BarrageVideoConst.videId, JSONUtil.toJsonStr(barrageMsgBo));
+            BarrageRedisUtils.listPush(BarrageRedisKeyConst.BARRAGE_TOTAL_MSG_KEY + BarrageVideoConst.VIDE_ID, JSONUtil.toJsonStr(barrageMsgBo));
 
             notifyOtherUser(videId, ctx, barrageMsgBo);
 

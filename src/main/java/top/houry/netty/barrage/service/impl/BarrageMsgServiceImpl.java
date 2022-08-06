@@ -1,14 +1,12 @@
 package top.houry.netty.barrage.service.impl;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import top.houry.netty.barrage.consts.BarrageVideoConst;
-import top.houry.netty.barrage.entity.BarrageMsg;
-import top.houry.netty.barrage.dao.BarrageMsgMapper;
-import top.houry.netty.barrage.service.IBarrageMsgService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import top.houry.netty.barrage.dao.BarrageMsgMapper;
+import top.houry.netty.barrage.entity.BarrageMsg;
+import top.houry.netty.barrage.service.IBarrageMsgService;
 
 import java.util.List;
 
@@ -45,13 +43,10 @@ public class BarrageMsgServiceImpl extends ServiceImpl<BarrageMsgMapper, Barrage
     }
 
     @Override
-    public List<BarrageMsg> getRollingBarrages(String videoId, String currentVideoTime) {
-        currentVideoTime = StrUtil.blankToDefault(currentVideoTime, "0");
+    public List<BarrageMsg> getRollingBarrages(String videoId, int currentVideoTime) {
         return list(Wrappers.<BarrageMsg>lambdaQuery()
                 .eq(BarrageMsg::getDelFlag, false)
                 .eq(BarrageMsg::getVideoId, videoId)
-                .ge(BarrageMsg::getVideoTime, Integer.parseInt(currentVideoTime))
-                .le(BarrageMsg::getVideoTime, Integer.parseInt(currentVideoTime) + BarrageVideoConst.videoTimeThreshold)
-                .orderByAsc(BarrageMsg::getVideoTime));
+                .eq(BarrageMsg::getVideoTime, currentVideoTime));
     }
 }

@@ -49,7 +49,7 @@ public class BarrageHistoryListServiceImpl implements IBarrageMsgTypeService {
                 message.setMsg(v.getMsgColor());
                 message.setCreateTime(BarrageDateUtils.dateToString(v.getCreateTime(), BarrageDateUtils.DateType.PURE_DATE_MD_HM_PATTERN));
                 message.setMsgColor(v.getMsgColor());
-                message.setSendTime(BarrageDateUtils.secondToNormTime(ObjectUtil.defaultIfNull(v.getVideoTime(), 0L)));
+                message.setSendTime(BarrageDateUtils.secondToNormTime(ObjectUtil.defaultIfNull(v.getVideoTime(), 0)));
                 message.setMsg(v.getMsgContent());
                 msgList.add(message.build());
             });

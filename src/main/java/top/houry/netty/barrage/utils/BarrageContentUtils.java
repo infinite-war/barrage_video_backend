@@ -1,8 +1,6 @@
 package top.houry.netty.barrage.utils;
 
 import cn.hutool.json.JSONUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
 import top.houry.netty.barrage.bo.BarrageMsgBo;
 import top.houry.netty.barrage.consts.BarrageRedisKeyConst;
 import top.houry.netty.barrage.consts.BarrageVideoConst;
@@ -25,7 +23,7 @@ public class BarrageContentUtils {
     }
 
     public static BarrageMsgBo getContext() {
-        List<String> barrages = BarrageRedisUtils.listGetAll(BarrageRedisKeyConst.BARRAGE_TOTAL_MSG_KEY + BarrageVideoConst.videId);
+        List<String> barrages = BarrageRedisUtils.listGetAll(BarrageRedisKeyConst.BARRAGE_TOTAL_MSG_KEY + BarrageVideoConst.VIDE_ID);
         List<BarrageMsgBo> barrageMsgList = new ArrayList<>(barrages.size());
         barrages.forEach(v -> {
             BarrageMsgBo msgBo = JSONUtil.toBean(v, BarrageMsgBo.class);

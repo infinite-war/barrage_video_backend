@@ -44,7 +44,7 @@ public class BarrageDateUtils {
      */
     private static final String[] DAY_OF_WEEK = {"周一", "周二", "周三", "周四", "周五", "周六", "周日"};
 
-    public static String secondToNormTime(long seconds) {
+    public static String secondToNormTime(int seconds) {
         String h = String.valueOf(seconds / 3600);
         String m = String.valueOf((seconds % 3600) / 60);
         String s = String.valueOf((seconds % 3600) % 60);
