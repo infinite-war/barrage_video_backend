@@ -1,9 +1,5 @@
 # barrage
-
-## 如果项目帮助到了您，请记得点个start哦  ^_^
-[![star](https://gitee.com/MonkeyBrothers/barrage/badge/star.svg?theme=dark)](https://gitee.com/MonkeyBrothers/barrage/stargazers)
-[![fork](https://gitee.com/MonkeyBrothers/barrage/badge/fork.svg?theme=dark)](https://gitee.com/MonkeyBrothers/barrage/members)
-[![Fork me on Gitee](https://gitee.com/MonkeyBrothers/barrage/widgets/widget_6.svg)](https://gitee.com/MonkeyBrothers/barrage)
+作者：MonkeyBrothers
 
 ## go版本地址
 https://gitee.com/MonkeyBrothers/barrage-go.git
