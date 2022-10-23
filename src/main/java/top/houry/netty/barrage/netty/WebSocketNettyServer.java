@@ -58,8 +58,12 @@ public class WebSocketNettyServer {
     public void startNettyServer() {
         try {
             ServerBootstrap server = new ServerBootstrap();
-            server.group(boss, worker).channel(NioServerSocketChannel.class).childHandler(new WebSocketNettyServerInitializer());
-            ChannelFuture channelFuture = server.bind(nettyConfigProperties.getServerPort()).addListener(new BarrageNettyServerListener(nettyConfigProperties.getServerPort())).sync();
+            server.group(boss, worker)
+                    .channel(NioServerSocketChannel.class)
+                    .childHandler(new WebSocketNettyServerInitializer());
+            ChannelFuture channelFuture = server.bind(nettyConfigProperties.getServerPort())
+                    .addListener(new BarrageNettyServerListener(nettyConfigProperties.getServerPort()))
+                    .sync();
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e) {
             log.error("[WebSocketNettyServer]-[startNettyServer]-[Exception]", e);
