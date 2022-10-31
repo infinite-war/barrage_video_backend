@@ -26,18 +26,18 @@ public class WebSocketNettyServerInitializer extends ChannelInitializer<SocketCh
     @Override
     protected void initChannel(SocketChannel socketChannel) {
         ChannelPipeline pipeline = socketChannel.pipeline();
-        pipeline.addLast(new HttpServerCodec());
+        pipeline.addLast(new HttpServerCodec());   //http编码器
         pipeline.addLast(new ChunkedWriteHandler());
-        pipeline.addLast(new HttpObjectAggregator(BarrageWebSocketConst.MAX_CONTENT_LENGTH));
+        pipeline.addLast(new HttpObjectAggregator(BarrageWebSocketConst.MAX_CONTENT_LENGTH));    //http包接收聚合
         pipeline.addLast(new IdleStateHandler(BarrageWebSocketConst.READER_IDLE_TIME, BarrageWebSocketConst.WRITE_IDLE_TIME, BarrageWebSocketConst.ALL_IDLE_TIM, TimeUnit.SECONDS));
-        pipeline.addLast(new WebSocketServerProtocolHandler(BarrageWebSocketConst.WEB_SOCKET_PATH));
-        pipeline.addLast(new WebSocketServerCompressionHandler());
+        pipeline.addLast(new WebSocketServerProtocolHandler(BarrageWebSocketConst.WEB_SOCKET_PATH));   //ws请求路径
+        pipeline.addLast(new WebSocketServerCompressionHandler());  //WebSocket 服务器压缩处理程序
         pipeline.addLast(new ProtobufVarint32LengthFieldPrepender());
-        pipeline.addLast(new WebSocketNettyServerMessageDecoder());
-        pipeline.addLast(new ProtobufDecoder(BarrageProto.Barrage.getDefaultInstance()));
-        pipeline.addLast(new WebSocketNettyServerMessageEncoder());
-        pipeline.addLast(new ProtobufEncoder());
-        pipeline.addLast(new WebSocketNettyServerHandler());
+        pipeline.addLast(new WebSocketNettyServerMessageDecoder());   //websocket服务端解码器
+        pipeline.addLast(new ProtobufDecoder(BarrageProto.Barrage.getDefaultInstance()));   //解码客户端传来的proto对象
+        pipeline.addLast(new WebSocketNettyServerMessageEncoder());   //websocket服务端编码器
+        pipeline.addLast(new ProtobufEncoder());     //编码proto对象
+        pipeline.addLast(new WebSocketNettyServerHandler());    //WebSocket Netty 服务器处理程序
 
     }
 }
