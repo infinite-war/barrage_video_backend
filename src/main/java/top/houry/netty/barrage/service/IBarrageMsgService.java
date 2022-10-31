@@ -16,9 +16,11 @@ import java.util.List;
 public interface IBarrageMsgService extends IService<BarrageMsg> {
     boolean saveBarrageMsg(BarrageMsg barrageMsg);
 
+    //获取弹幕列表(分页)
     List<BarrageMsg> getListByVideoId(String videoId);
 
     int getMsgCountByVideoId(String videoId);
 
+    //获取滚动型弹幕
     List<BarrageMsg> getRollingBarrages(String videoId, int currentVideoTime);
 }

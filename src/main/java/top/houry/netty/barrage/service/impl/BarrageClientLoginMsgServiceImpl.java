@@ -55,9 +55,11 @@ public class BarrageClientLoginMsgServiceImpl implements IBarrageMsgTypeService 
             loginResp.setBarrageTotalCount(msgService.getMsgCountByVideoId(videoId));
             loginResp.setBarrageTotalWatchCount(Integer.parseInt(watchInfoService.getTotalWatchCount(videoId)));
 
+            //将loginResp装入builder用于对象传输
             builder.setBytesData(loginResp.build().toByteString());
             builder.setMsgType(BarrageMsgTypeConst.WEB_CLIENT_LOGIN_RESP);
 
+            //通过builder传输对象
             ctx.writeAndFlush(builder);
 
         } catch (Exception e) {
