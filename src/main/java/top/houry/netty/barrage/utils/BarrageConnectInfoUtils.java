@@ -20,9 +20,12 @@ public class BarrageConnectInfoUtils {
 
     /**
      * 维护了视频ID和目前观看视频的用户的通道
+     * <视频id，正在观看的用户>一对多
      */
     public static final Map<String, CopyOnWriteArrayList<ChannelHandlerContext>> BASE_CONNECT_INFO_MAP = new ConcurrentHashMap<>(256);
-
+    /**
+     * <用户，视频id>一对一
+     */
     public static final Map<ChannelHandlerContext, String> BASE_CHANNEL_VIDEO_MAP = new ConcurrentHashMap<>(256);
 
     /**
@@ -53,14 +56,17 @@ public class BarrageConnectInfoUtils {
         if (StringUtils.isBlank(videoId) || null == context || !context.channel().isActive()) {
             return false;
         }
+        //一个视频可以同时被多个人观看
         List<ChannelHandlerContext> channelHandlerContexts = BASE_CONNECT_INFO_MAP.get(videoId);
+        //假如当前打开的视频没有人观看，则新建相关的<视频id，正在观看的人数>一对多关系
         if (CollectionUtils.isEmpty(channelHandlerContexts)) {
             CopyOnWriteArrayList<ChannelHandlerContext> contexts = new CopyOnWriteArrayList<>();
             contexts.add(context);
-            BASE_CONNECT_INFO_MAP.put(videoId, contexts);
-            BASE_CHANNEL_VIDEO_MAP.put(context, videoId);
+            BASE_CONNECT_INFO_MAP.put(videoId, contexts);   //一个视频可以被多个人观看
+            BASE_CHANNEL_VIDEO_MAP.put(context, videoId);   //一个用户打开一个视频
             return true;
         }
+        //假如当前打开的视频有其他人再看，则在原有信息上加上<用户通道，视频id>的一对一关系
         BASE_CHANNEL_VIDEO_MAP.put(context, videoId);
         return channelHandlerContexts.add(context);
     }

@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+
+/*
+* 敏感词处理工具类
+* */
 public class BarrageMsgSensitiveUtils {
 
     private static List<BarrageMsgSensitive> msgSensitives = new ArrayList<>(256);
@@ -22,6 +26,7 @@ public class BarrageMsgSensitiveUtils {
 
     private static final Map<Object, Object> sensitiveWordMap = new HashMap<>(256);
 
+    //初始化敏感词列表
     private static void initSensitiveMsgMap() {
         Map<Object, Object> tempMap;
         Map<Object, Object> newMsgMap;
